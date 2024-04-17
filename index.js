@@ -8,10 +8,6 @@ const app = express();
 const port = 5000;
 
 app.use(express.json());
-app.use((req, res, next) => {
-  console.log(`Incoming request: ${req.method} ${req.url}`);
-  next();
-});
 
 // GET all posts
 app.get("/posts", async (req, res, next) => {
