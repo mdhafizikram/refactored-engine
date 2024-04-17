@@ -1,10 +1,17 @@
 const express = require("express");
 const axios = require("axios");
+const swaggerUi = require("swagger-ui-express");
+const YAML = require("yamljs");
+const swaggerDocument = YAML.load("./swagger.yaml");
 
 const app = express();
-const port = 3000;
+const port = 5000;
 
 app.use(express.json());
+app.use((req, res, next) => {
+  console.log(`Incoming request: ${req.method} ${req.url}`);
+  next();
+});
 
 // GET all posts
 app.get("/posts", async (req, res, next) => {
@@ -95,6 +102,8 @@ app.delete("/posts/:id", async (req, res, next) => {
   }
 });
 
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 // Middleware for error handling
 app.use((err, req, res, next) => {
   console.error(err.stack);
@@ -106,6 +115,7 @@ app.use((err, req, res, next) => {
 });
 // Catch-all route handler
 app.use((req, res) => {
+  console.log("route not found");
   res.status(404).json({ error: "Route not found" });
 });
 

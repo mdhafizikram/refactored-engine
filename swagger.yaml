@@ -1,0 +1,84 @@
+openapi: 3.0.0
+info:
+  title: Express API with Swagger
+  version: 1.0.0
+paths:
+  /posts:
+    get:
+      summary: Get all posts
+      responses:
+        '200':
+          description: Successful response
+    post:
+      summary: Create a new post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Post'
+      responses:
+        '201':
+          description: Post created successfully
+  /posts/{id}:
+    get:
+      summary: Get a single post by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID of the post to retrieve
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+        '404':
+          description: Post not found
+    put:
+      summary: Update a post by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID of the post to update
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Post'
+      responses:
+        '200':
+          description: Post updated successfully
+        '404':
+          description: Post not found
+    delete:
+      summary: Delete a post by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID of the post to delete
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Post deleted successfully
+        '404':
+          description: Post not found
+components:
+  schemas:
+    Post:
+      type: object
+      properties:
+        userId:
+          type: integer
+        id:
+          type: integer
+        title:
+          type: string
+        body:
+          type: string
